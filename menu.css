@@ -1,0 +1,66 @@
+#vue-menu {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#drag-scope {
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+}
+
+.column {
+  flex: 1 1 350px;
+}
+
+.menu-container {
+  display: flex;
+  padding: 10px;
+  margin: 10px;
+  flex-flow: column nowrap;
+  min-height: 106px;
+}
+
+.menu-item {
+  padding: 3px;
+  margin: 5px;
+  color: white;
+  font-size: large;
+  background-color: grey;
+  border: 3px solid lightgoldenrodyellow;
+  text-align: center;
+}
+
+.regular .menu-item {
+  background-color: #669EFE;
+  border-radius: 10px;
+}
+
+.handle {
+  cursor: move;
+  float: right;
+  color: black;
+}
+
+.remove {
+  color: red;
+  float: right;
+  cursor: pointer;
+}
+
+.menu {
+  padding: 5px;
+}
+
+.title {
+  font-weight: 900;
+  font-size: x-large;
+  text-align: left;
+  padding: 0px 30px;
+  margin: 5px;
+}
+
+.input-model {
+  padding: 0px 30px;
+}

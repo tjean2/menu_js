@@ -1,0 +1,1 @@
+Simple Drag&Drop test with VueJS and LMDD (https://github.com/supraniti/Lean-Mean-Drag-and-Drop)

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+ 
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Menu vue.js</title>
+    <link rel="stylesheet" href="lib/lmdd.css">
+    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  </head>
+
+<body>
+
+  <div id="vue-menu">
+    <div id="drag-scope">
+      <div class="column">
+        <div class="title">Menu : éléments et positions</div>
+        <menu-container class="regular" :data="menus.regular">
+          <menu-item v-for="(menu, index) in menus.regular" :data="menu" @remove="menus.regular.splice(index, 1)"></menu-item>
+        </menu-container>
+      </div>
+    </div>
+    <div class="input-model">
+      <input class="form-control" v-model="newMenuText" v-on:keyup.enter="addNewMenu" placeholder="Ajouter">
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+  <script src="lib/lmdd.js"></script>
+
+  <script>
+      Vue.component('menu-container', {
+        template: '<div class="menu-container"><slot></slot></div>',
+        props: ['data']
+      });
+      Vue.component('menu-item', {
+        template: `
+          <div class="z-depth-3 menu-item">
+          <div class="content lmdd-block">
+          <button class="remove" @click="$emit('remove')"><i class="fa fa-trash-o fa-lg"></i></button>
+          <button class="handle"><i class="fa fa-arrows"></i></button>
+          <div class="menu">{{data}}</div>
+          </div>
+          </div>
+          `,
+        props: ['data']
+      })
+    
+    var vueMenu = new Vue({
+      el: '#vue-menu',
+      data: {
+        newMenuText: '',
+        menus: {
+          regular: [
+            'Home',
+            'Work',
+            'Blog',
+            'Contact',
+          ],
+        }
+      },
+      mounted: function() {
+        lmdd.set(document.getElementById('drag-scope'), {
+          containerClass: 'menu-container',
+          draggableItemClass: 'menu-item',
+          handleClass: 'handle',
+          dataMode: true
+        });
+        this.$el.addEventListener('lmddend', this.handleDragEvent);
+      },
+      methods: {
+        handleDragEvent: function(event) {
+          var newIndex = event.detail.to.index;
+          var oldIndex = event.detail.from.index;
+          var newContainer = event.detail.to.container.__vue__.data;
+          var oldContainer = event.detail.from.container.__vue__.data;
+          if (event.detail.dragType === 'move') {
+            newContainer.splice(newIndex, 0, oldContainer.splice(oldIndex, 1)[0]);
+          }
+        },
+        addNewMenu: function() {
+          this.menus.regular.push(this.newMenuText)
+          this.newMenuText = ''
+        }
+      }
+    })
+
+    </script>
+
+</body>
